@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:titlebar_buttons/titlebar_buttons.dart';
 
 import 'package:open_game_ceramic/themeConfig.dart';
 import 'package:open_game_ceramic/elements/customNavButton.dart';
@@ -72,7 +73,7 @@ class MaterialAppWithTheme extends StatelessWidget {
                           onPressed: () {},
                           active: true,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 4,
                         ),
                         CustomNavbutton(
@@ -98,6 +99,31 @@ class MaterialAppWithTheme extends StatelessWidget {
                                           .onBackground
                                           .withAlpha(40)))),
                           height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              DecoratedMinimizeButton(
+                                type: ThemeType.auto,
+                                onPressed: () {
+                                  windowManager.minimize();
+                                },
+                              ),
+                              DecoratedMaximizeButton(
+                                type: ThemeType.auto,
+                                onPressed: () async {
+                                  await windowManager.isMaximized()
+                                      ? windowManager.unmaximize()
+                                      : windowManager.maximize();
+                                },
+                              ),
+                              DecoratedCloseButton(
+                                type: ThemeType.auto,
+                                onPressed: () {
+                                  windowManager.close();
+                                },
+                              ),
+                            ],
+                          ),
                         )),
                         Flexible(flex: 1, child: a3pages(context)[0])
                       ],
